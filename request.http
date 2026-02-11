@@ -1,0 +1,144 @@
+### =====================================================
+### COMMON API
+### =====================================================
+
+### Login (User / Author / Admin)
+POST http://localhost:4000/common-api/login
+Content-Type: application/json
+
+{
+  "email": "saibwaj@example.com",
+  "password": "Saibrad123"
+}
+
+
+### Change Password (Protected)
+POST http://localhost:4000/common-api/change-password
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+  "currentPassword": "Saibrad123",
+  "newPassword": "NewPass123!"
+}
+
+
+### Logout
+GET http://localhost:4000/common-api/logout
+
+
+
+### =====================================================
+### USER API
+### =====================================================
+
+### Register User
+POST http://localhost:4000/user-api/users
+Content-Type: application/json
+
+{
+  "firstName": "Sai",
+  "lastName": "Bharadhwaj",
+  "email": "saibwaj@example.com",
+  "password": "Saibrad123",
+  "profileImageUrl": "xyzccc.png"
+}
+
+
+### Get All Active Articles (Protected)
+GET http://localhost:4000/user-api/articles
+Authorization: Bearer 
+
+
+### Add Comment to Article (Protected)
+POST http://localhost:4000/user-api/articles/698996afa15ab50bed21e531/comments
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+  "comment": "I disagree, JJK is actually pretty good"
+}
+
+
+
+### =====================================================
+### AUTHOR API
+### =====================================================
+
+### Register Author
+POST http://localhost:4000/author-api/users
+Content-Type: application/json
+
+{
+  "firstName": "Sai",
+  "lastName": "Bwaj",
+  "email": "saibrad@exmple.com",
+  "password": "Saibrad12345",
+  "profileImageUrl": "xyzc.png"
+}
+
+
+### Create Article (Protected)
+POST http://localhost:4000/author-api/articles
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+  "title": "My First Article",
+  "content": "I wanna say JJK is mid",
+  "category": "Anime"
+}
+
+
+### Get Author Articles (Protected)
+GET http://localhost:4000/author-api/articles
+Authorization: Bearer 
+
+
+### Update Article (Protected)
+PUT http://localhost:4000/author-api/articles/698996afa15ab50bed21e531
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+  "title": "My First Article's Updated Version",
+  "content": "I wanna say JJK is not only mid but also very much overrated",
+  "category": "Anime"
+}
+
+
+### Delete Article (Protected)
+DELETE http://localhost:4000/author-api/articles/698996afa15ab50bed21e531
+Authorization: Bearer 
+
+
+
+### =====================================================
+### ADMIN API
+### =====================================================
+
+### Register Admin
+POST http://localhost:4000/admin-api/users
+Content-Type: application/json
+
+{
+  "firstName": "Sai",
+  "lastName": "Admin",
+  "email": "saiadmin@gmail.com",
+  "password": "hash"
+}
+
+
+### Get All Active Articles (Protected)
+GET http://localhost:4000/admin-api/articles
+Authorization: Bearer ##token
+
+
+### Block User (Protected)
+POST http://localhost:4000/admin-api/block-user/698aca2676651ed69efdcd03
+Authorization: Bearer  ###token 
+
+
+### Unblock User (Protected)
+POST http://localhost:4000/admin-api/unblock-user/698aca2676651ed69efdcd03
+Authorization: Bearer ###token 
