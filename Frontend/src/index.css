@@ -1,1 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
+
+:root {
+	color-scheme: light;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: "Manrope", "Segoe UI", sans-serif;
+	color: #1f2937;
+	background: radial-gradient(circle at top right, #f4f9ff 0%, #f4f6f8 40%, #edf2f7 100%);
+}
+
+a {
+	text-decoration: none;
+}

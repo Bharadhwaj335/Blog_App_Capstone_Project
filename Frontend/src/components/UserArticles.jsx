@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { API_BASE_URL } from "../config/api";
 
 import {
   articleGrid,
@@ -25,7 +26,7 @@ function UserArticles() {
     const getArticles = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:4000/user-api/articles", { withCredentials: true });
+        const res = await axios.get(`${API_BASE_URL}/user-api/articles`, { withCredentials: true });
         setArticles(res.data.payload);
       } catch (err) {
         setError(err.response?.data?.error || "Something went wrong");

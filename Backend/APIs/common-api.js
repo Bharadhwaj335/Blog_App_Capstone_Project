@@ -61,9 +61,20 @@ commonRouter.put("/change-password", async (req, res) => {
 });
 
 //Page refresh
-commonRouter.get("/check-auth", verifyToken("USER","AUTHOR","ADMIN"), (req, res) => {
-  res.status(200).json({
-    message: "authenticated",
-    payload: req.user
-  });
+commonRouter.get("/check-auth", verifyToken("USER", "AUTHOR", "ADMIN"), async (req, res, next) => {
+  try {
+    // req.user from token has limited fields; fetch full user for UI data like profile image.
+    const user = await UserTypeModel.findById(req.user.userId).select("-password");
+
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized. Please login" });
+    }
+
+    res.status(200).json({
+      message: "authenticated",
+      payload: user,
+    });
+  } catch (err) {
+    next(err);
+  }
 });

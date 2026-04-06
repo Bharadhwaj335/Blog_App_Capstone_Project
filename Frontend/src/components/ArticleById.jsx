@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../store/authStore";
 import { toast } from "react-hot-toast";
+import { API_BASE_URL } from "../config/api";
 import {
   articlePageWrapper,
   articleHeader,
@@ -39,7 +40,7 @@ function ArticleByID() {
       setLoading(true);
 
       try {
-        const res = await axios.get(`http://localhost:4000/user-api/article/${id}`, { withCredentials: true });
+        const res = await axios.get(`${API_BASE_URL}/user-api/article/${id}`, { withCredentials: true });
 
         setArticle(res.data.payload);
       } catch (err) {
@@ -69,7 +70,7 @@ function ArticleByID() {
 
     try {
       const res = await axios.patch(
-        `http://localhost:4000/author-api/articles/${id}/status`,
+        `${API_BASE_URL}/author-api/articles/${id}/status`,
         { isArticleActive: newStatus },
         { withCredentials: true },
       );
@@ -118,7 +119,7 @@ function ArticleByID() {
         comment: trimmedComment,
       };
 
-      const res = await axios.put("http://localhost:4000/user-api/articles", payload, {
+      const res = await axios.put(`${API_BASE_URL}/user-api/articles`, payload, {
         withCredentials: true,
       });
 

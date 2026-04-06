@@ -18,9 +18,9 @@ function RootLayout() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <div className="min-h-screen mx-4 sm:mx-36">
+      <div className="flex-1 w-full">
         <Outlet />
       </div>
       <Footer />

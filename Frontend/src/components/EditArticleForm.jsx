@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router";
+import { API_BASE_URL } from "../config/api";
 
 import {
   formCard,
@@ -46,7 +47,7 @@ function EditArticle() {
       setLoading(true);
       setApiError(null);
       try {
-        const res = await axios.get(`http://localhost:4000/user-api/article/${id}`, {
+        const res = await axios.get(`${API_BASE_URL}/user-api/article/${id}`, {
           withCredentials: true,
         });
         setArticle(res.data.payload);
@@ -86,7 +87,7 @@ function EditArticle() {
         articleId: article?._id || id,
       };
 
-      const res = await axios.put("http://localhost:4000/author-api/articles", payload, {
+      const res = await axios.put(`${API_BASE_URL}/author-api/articles`, payload, {
         withCredentials: true,
       });
 
