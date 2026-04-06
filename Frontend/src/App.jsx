@@ -6,7 +6,7 @@ import Home from "./components/Home";
 import UserProfile from "./components/UserProfile";
 import UserArticles from "./components/UserArticles";
 import AuthorProfile from "./components/AuthorProfile";
-import ArticleByID from "./components/ArticleByID";
+import ArticleByID from "./components/ArticleById";
 import AuthorArticles from "./components/AuthorArticles";
 import WriteArticle from "./components/WriteArticle";
 import { Toaster } from "react-hot-toast";
