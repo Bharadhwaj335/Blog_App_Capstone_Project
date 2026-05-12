@@ -12,8 +12,12 @@ config(); //process.env
 
 //Create express application
 const app = exp();
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 //use cors middleware
-app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 //add body parser middleware
 app.use(exp.json());
 //add cookie parser middleware
@@ -28,7 +32,13 @@ app.use("/common-api", commonRouter);
 //connect to db
 const connectDB = async () => {
   try {
-    await connect(process.env.DB_URL);
+    const mongoUri = process.env.DB_URL || process.env.MONGO_URI;
+
+    if (!mongoUri) {
+      throw new Error("Missing MongoDB connection string. Set DB_URL in Backend/.env");
+    }
+
+    await connect(mongoUri);
     console.log("DB connection success");
 
     //start http server

@@ -28,19 +28,21 @@ function Register() {
 
   const onUserRegister = async (newUser) => {
     setLoading(true);
+    setError(null);
 
     // Create form data object
     const formData = new FormData();
     //get user object
     let { role, profileImageUrl, ...userObj } = newUser;
-    console.log("role", role);
-    console.log("profileImageUrl", profileImageUrl);
     //add all fields except profilePic to FormData object
     Object.keys(userObj).forEach((key) => {
       formData.append(key, userObj[key]);
     });
-    // add profilePic to Formdata object
-    formData.append("profileImageUrl", profileImageUrl[0]);
+    // add profile image only when the user selected one
+    const profileFile = profileImageUrl?.[0];
+    if (profileFile) {
+      formData.append("profileImageUrl", profileFile);
+    }
     //add image to formData objecte
     try {
       if (role === "user") {
@@ -55,15 +57,13 @@ function Register() {
         //make API req to author-api
         //make API req to user-api
         let resObj = await axios.post(`${API_BASE_URL}/author-api/users`, formData);
-        console.log("res obj is ", resObj);
         if (resObj.status === 201) {
           //navigate to login
           navigate("/login");
         }
       }
     } catch (err) {
-      // console.log("err is ", err);
-      setError(err.response?.data?.error || "Registration failed");
+      setError(err.response?.data?.error || err.response?.data?.message || err.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -98,7 +98,7 @@ function Register() {
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
-                  {...register("role")}
+                  {...register("role", { required: "Please select a role" })}
                   id="user"
                   value="user"
                   className="accent-violet-600 w-4 h-4"
@@ -108,7 +108,7 @@ function Register() {
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
-                  {...register("role")}
+                  {...register("role", { required: "Please select a role" })}
                   id="author"
                   value="author"
                   className="accent-violet-600 w-4 h-4"
@@ -124,24 +124,44 @@ function Register() {
           <div className="sm:flex gap-4 mb-4">
             <div className="flex-1">
               <label className={labelClass}>First Name</label>
-              <input type="text" {...register("firstName")} placeholder="First name" className={inputClass} />
+              <input
+                type="text"
+                {...register("firstName", { required: "First name is required" })}
+                placeholder="First name"
+                className={inputClass}
+              />
             </div>
             <div className="flex-1">
               <label className={labelClass}>Last Name</label>
-              <input type="text" {...register("lastName")} placeholder="Last name" className={inputClass} />
+              <input
+                type="text"
+                {...register("lastName", { required: "Last name is required" })}
+                placeholder="Last name"
+                className={inputClass}
+              />
             </div>
           </div>
 
           {/* Email */}
           <div className={formGroup}>
             <label className={labelClass}>Email</label>
-            <input type="email" {...register("email")} placeholder="you@example.com" className={inputClass} />
+            <input
+              type="email"
+              {...register("email", { required: "Email is required" })}
+              placeholder="you@example.com"
+              className={inputClass}
+            />
           </div>
 
           {/* Password */}
           <div className={formGroup}>
             <label className={labelClass}>Password</label>
-            <input type="password" {...register("password")} placeholder="Min. 8 characters" className={inputClass} />
+            <input
+              type="password"
+              {...register("password", { required: "Password is required" })}
+              placeholder="Min. 8 characters"
+              className={inputClass}
+            />
           </div>
 
           {/* Profile Image URL */}
