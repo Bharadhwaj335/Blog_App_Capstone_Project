@@ -4,6 +4,8 @@ import { Navigate } from "react-router";
 function ProtectedRoute({ children, allowedRoles }) {
   //get user login status from store
   const { loading, currentUser, isAuthenticated, logout } = useAuth();
+  const normalizedRole = currentUser?.role?.toUpperCase?.();
+  const normalizedAllowedRoles = allowedRoles?.map((role) => role?.toUpperCase?.());
   //loading state
   if (loading) {
     return <p>Loading...</p>;
@@ -18,7 +20,7 @@ function ProtectedRoute({ children, allowedRoles }) {
   // console.log("aloowed role", allowedRoles);
   // console.log(allowedRoles.includes(currentUser?.role));
   //check roles
-  if (allowedRoles && !allowedRoles.includes(currentUser?.role)) {
+  if (normalizedAllowedRoles && !normalizedAllowedRoles.includes(normalizedRole)) {
     console.log("first");
     //redirect to Login
     return <Navigate to="/unauthorized" replace state={{ redirectTo: "/" }} />;

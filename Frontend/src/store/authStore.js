@@ -2,6 +2,14 @@ import { create } from "zustand";
 import axios from "axios";
 import { API_BASE_URL } from "../config/api";
 
+const normalizeUser = (user) => {
+  if (!user) return null;
+  return {
+    ...user,
+    role: user.role?.toUpperCase?.() || user.role,
+  };
+};
+
 export const useAuth = create((set) => ({
   currentUser: null,
   loading: false,
@@ -19,7 +27,7 @@ export const useAuth = create((set) => ({
       set({
         loading: false,
         isAuthenticated: true,
-        currentUser: res.data.payload, //{message:"",payload:}
+        currentUser: normalizeUser(res.data.payload), //{message:"",payload:}
       });
     } catch (err) {
       console.log("err is ", err);
@@ -60,7 +68,7 @@ export const useAuth = create((set) => ({
       const res = await axios.get(`${API_BASE_URL}/common-api/check-auth`, { withCredentials: true });
 
       set({
-        currentUser: res.data.payload,
+        currentUser: normalizeUser(res.data.payload),
         isAuthenticated: true,
         loading: false,
       });

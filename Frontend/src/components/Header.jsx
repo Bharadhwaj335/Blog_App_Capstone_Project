@@ -24,9 +24,10 @@ function Header() {
   // decide profile route based on role
   const getProfilePath = () => {
     if (!user) return "/";
+    const role = user.role?.toUpperCase?.();
 
    // console.log("current user", user);
-    switch (user.role) {
+    switch (role) {
       case "AUTHOR":
         return "/author-profile";
       case "ADMIN":

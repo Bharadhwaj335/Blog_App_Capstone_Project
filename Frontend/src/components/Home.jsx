@@ -15,9 +15,10 @@ const categories = ["Tech", "Design", "Career", "Productivity", "AI", "Wellness"
 function Home() {
   const isAuthenticated = useAuth((state) => state.isAuthenticated);
   const user = useAuth((state) => state.currentUser);
+  const role = user?.role?.toUpperCase?.();
 
   const profilePath =
-    user?.role === "AUTHOR" ? "/author-profile" : user?.role === "ADMIN" ? "/admin-profile" : "/user-profile";
+    role === "AUTHOR" ? "/author-profile" : role === "ADMIN" ? "/admin-profile" : "/user-profile";
 
   return (
     <main className={pageBackground}>
