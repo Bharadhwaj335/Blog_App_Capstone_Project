@@ -17,8 +17,8 @@ commonRouter.post("/login", validate(loginSchema), async (req, res) => {
   //save tokan as httpOnly cookie
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false,
+    sameSite: "none",
+    secure: true,
   });
   //send res
   res.status(200).json({ message: "login success", payload: user });
@@ -28,9 +28,9 @@ commonRouter.post("/login", validate(loginSchema), async (req, res) => {
 commonRouter.get("/logout", (req, res) => {
   // Clear the cookie named 'token'
   res.clearCookie("token", {
-    httpOnly: true, // Must match original  settings
-    secure: false, // Must match original  settings
-    sameSite: "lax", // Must match original  settings
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
   });
 
   res.status(200).json({ message: "Logged out successfully" });

@@ -15,9 +15,10 @@ config(); //process.env
 
 //Create express application
 const app = exp();
+app.set("trust proxy", 1); // Required for Render to handle rate limiting and secure cookies
 const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
   .split(",")
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/\/$/, ""))
   .filter(Boolean);
 //use cors middleware
 app.use(cors({ origin: allowedOrigins, credentials: true }));
