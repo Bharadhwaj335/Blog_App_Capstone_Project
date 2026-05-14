@@ -36,7 +36,7 @@ function Login() {
 
  
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && currentUser) {
       if (location.pathname === "/login") {
         if (currentUser.role === "USER") {
           toast.success("Loggedin successfully");

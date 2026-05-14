@@ -27,7 +27,7 @@ export const useAuth = create((set) => ({
       set({
         loading: false,
         isAuthenticated: true,
-        currentUser: normalizeUser(res.data.payload), //{message:"",payload:}
+        currentUser: normalizeUser(res.data.payload || res.data.user),
       });
     } catch (err) {
 
@@ -68,7 +68,7 @@ export const useAuth = create((set) => ({
       const res = await axios.get(`${API_BASE_URL}/common-api/check-auth`, { withCredentials: true });
 
       set({
-        currentUser: normalizeUser(res.data.payload),
+        currentUser: normalizeUser(res.data.payload || res.data.user),
         isAuthenticated: true,
         loading: false,
       });

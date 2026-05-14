@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { API_BASE_URL } from "../config/api";
+import { toast } from "react-hot-toast";
 
 function Register() {
   const { register, handleSubmit } = useForm();
@@ -49,7 +50,7 @@ function Register() {
         //make API req to user-api
         let resObj = await axios.post(`${API_BASE_URL}/user-api/users`, formData);
         if (resObj.status === 201) {
-          //navigate to login
+          toast.success("Account created successfully!");
           navigate("/login");
         }
       }
