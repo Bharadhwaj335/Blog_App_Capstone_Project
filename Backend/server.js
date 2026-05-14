@@ -70,6 +70,11 @@ const connectDB = async () => {
 
 connectDB();
 
+// root route for health check
+app.get("/", (req, res) => {
+  res.json({ message: "Backend API is running successfully!" });
+});
+
 //dealing with invalid path
 app.use((req, res, next) => {
   console.log(req.url);
