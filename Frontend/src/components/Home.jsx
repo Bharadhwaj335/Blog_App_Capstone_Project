@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../store/authStore";
 import {
   pageBackground,
@@ -16,6 +16,7 @@ function Home() {
   const isAuthenticated = useAuth((state) => state.isAuthenticated);
   const user = useAuth((state) => state.currentUser);
   const role = user?.role?.toUpperCase?.();
+  const navigate = useNavigate();
 
   const profilePath =
     role === "AUTHOR" ? "/author-profile" : role === "ADMIN" ? "/admin-profile" : "/user-profile";
@@ -57,12 +58,13 @@ function Home() {
 
           <div className="mt-6 flex flex-wrap gap-2.5">
             {categories.map((category) => (
-              <span
+              <button
                 key={category}
-                className="px-4 py-2 rounded-full border border-[#d4dee8] text-sm font-medium text-[#334155] bg-[#f8fbff]"
+                onClick={() => navigate(isAuthenticated ? profilePath + "/articles" : "/login")}
+                className="px-4 py-2 rounded-full border border-[#d4dee8] text-sm font-medium text-[#334155] bg-[#f8fbff] hover:bg-[#eaf4ff] hover:border-[#0066cc] hover:text-[#0066cc] transition-colors cursor-pointer"
               >
                 {category}
-              </span>
+              </button>
             ))}
           </div>
         </div>

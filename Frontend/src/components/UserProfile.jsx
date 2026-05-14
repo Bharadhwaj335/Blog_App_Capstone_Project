@@ -1,26 +1,13 @@
 import { useAuth } from "../store/authStore";
-import { NavLink, Outlet, useNavigate } from "react-router";
-import { toast } from "react-hot-toast";
+import { NavLink, Outlet } from "react-router";
 
 import {
   pageWrapper,
-  navLinkClass,
-  navLinkActiveClass,
   primaryBtn,
-  secondaryBtn,
-  divider,
 } from "../styles/common.js";
 
 function UserProfile() {
-  const logout = useAuth((state) => state.logout);
   const currentUser = useAuth((state) => state.currentUser);
-  const navigate = useNavigate();
-
-  const onLogout = async () => {
-    await logout();
-    toast.success("Logged out successfully");
-    navigate("/login");
-  };
 
   return (
     <div className={pageWrapper}>

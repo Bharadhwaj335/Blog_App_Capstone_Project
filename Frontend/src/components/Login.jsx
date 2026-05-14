@@ -9,7 +9,6 @@ import {
   submitBtn,
   errorClass,
   mutedText,
-  divider,
   linkClass,
 } from "../styles/common";
 import { NavLink } from "react-router";
@@ -17,9 +16,12 @@ import { useAuth } from "../store/authStore";
 import { useEffect } from "react";
 import { useNavigate,useLocation } from "react-router";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
 
 function Login() {
   const { register, handleSubmit } = useForm();
+  const [showPassword, setShowPassword] = useState(false);
+  const loading = useAuth((state) => state.loading);
   const login = useAuth((state) => state.login);
   const isAuthenticated = useAuth((state) => state.isAuthenticated);
   const currentUser = useAuth((state) => state.currentUser);
@@ -28,9 +30,6 @@ function Login() {
   const location=useLocation()
 
 
-  // console.log("Is Authenticated :", isAuthenticated);
-  // console.log("Current usr", currentUser);
-  // console.log("error is ", error);
   const onUserLogin = async (userCredObj) => {
     await login(userCredObj);
   };
@@ -47,7 +46,7 @@ function Login() {
         }
       }
     }
-  }, [isAuthenticated, currentUser]);
+  }, [isAuthenticated, currentUser, location.pathname, navigate]);
 
   return (
     <div className={`${pageBackground} flex items-center justify-center py-16 px-4`}>
@@ -67,21 +66,34 @@ function Login() {
           {/* Password */}
           <div className={formGroup}>
             <label className={labelClass}>Password</label>
-            <input type="password" {...register("password")} placeholder="••••••••" className={inputClass} />
-          </div>
-
-          {/* Forgot password */}
-          <div className="text-right -mt-2 mb-4">
-            <a href="/forgot-password" className={`${linkClass} text-xs`}>
-              Forgot password?
-            </a>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...register("password", { required: "Password is required" })}
+                placeholder="••••••••"
+                className={inputClass}
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 hover:text-gray-700"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
 
           {/* Submit */}
-          <button type="submit" className={submitBtn}>
-            Sign In
+          <button type="submit" className={submitBtn} disabled={loading}>
+            {loading ? "Signing In..." : "Sign In"}
           </button>
         </form>
+
+        <div className="mt-4 flex justify-center">
+          <button onClick={() => navigate("/")} className="text-sm text-gray-500 hover:text-gray-700">
+            ← Back to Home
+          </button>
+        </div>
 
         {/* Footer note */}
         <p className={`${mutedText} text-center mt-5`}>

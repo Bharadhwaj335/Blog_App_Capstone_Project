@@ -3,10 +3,13 @@ import { authenticate } from "../Services/authService.js";
 import { UserTypeModel } from "../Models/user-model.js";
 import bcrypt from "bcryptjs";
 import { verifyToken } from "../Middlewares/verifyToken.js";
+import { validate } from "../Middlewares/validate.js";
+import { loginSchema, changePasswordSchema } from "../config/schemas.js";
+
 export const commonRouter = exp.Router();
 
 //login
-commonRouter.post("/login", async (req, res) => {
+commonRouter.post("/login", validate(loginSchema), async (req, res) => {
   //get user cred object
   let userCred = req.body;
   //call authenticate service
@@ -34,7 +37,7 @@ commonRouter.get("/logout", (req, res) => {
 });
 
 //Change password(Protected route)
-commonRouter.put("/change-password", async (req, res) => {
+commonRouter.put("/change-password", validate(changePasswordSchema), async (req, res) => {
   //get current password and new password
   const { role, email, currentPassword, newPassword } = req.body;
   // Prevent same password

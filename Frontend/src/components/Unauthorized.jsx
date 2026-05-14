@@ -27,13 +27,12 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 
 const Unauthorized = ({ delay = 5000 }) => {
-  console.log("unauthorized");
   const navigate = useNavigate();
   const location = useLocation();
 
   // Get redirectTo from state
   const redirectTo = location.state?.redirectTo || "/login";
-  console.log("redirect",redirectTo)
+
 
   useEffect(() => {
     const timer = setTimeout(() => {

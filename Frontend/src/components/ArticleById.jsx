@@ -51,7 +51,7 @@ function ArticleByID() {
     };
 
     getArticle();
-  }, [id]);
+  }, [id, article]);
 
   const formatDate = (date) => {
     return new Date(date).toLocaleString("en-IN", {
@@ -75,13 +75,11 @@ function ArticleByID() {
         { withCredentials: true },
       );
 
-      console.log("SUCCESS:", res.data);
 
       setArticle(res.data.payload);
 
       toast.success(res.data.message);
     } catch (err) {
-      console.log("ERROR:", err.response);
 
       const msg = err.response?.data?.message;
 

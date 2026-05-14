@@ -10,7 +10,7 @@ function RootLayout() {
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
   // wait until auth check completes
   if (loading) {

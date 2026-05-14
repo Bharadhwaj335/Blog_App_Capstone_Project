@@ -23,8 +23,8 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  //const []=useState()
 
   const onUserRegister = async (newUser) => {
     setLoading(true);
@@ -78,10 +78,7 @@ function Register() {
     };
   }, [preview]);
 
-  //loading
-  if (loading === true) {
-    return <p className={loadingClass}></p>;
-  }
+  //removed old loading class return
 
   return (
     <div className={`${pageBackground} flex items-center justify-center py-16 px-4`}>
@@ -156,17 +153,26 @@ function Register() {
           {/* Password */}
           <div className={formGroup}>
             <label className={labelClass}>Password</label>
-            <input
-              type="password"
-              {...register("password", { required: "Password is required" })}
-              placeholder="Min. 8 characters"
-              className={inputClass}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...register("password", { required: "Password is required" })}
+                placeholder="Min. 8 characters"
+                className={inputClass}
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 hover:text-gray-700"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
 
-          {/* Profile Image URL */}
+          {/* Profile Image */}
           <div className={formGroup}>
-            <label className={labelClass}>Profile Image URL</label>
+            <label className={labelClass}>Profile Image</label>
             <input
               type="file"
               accept="image/png, image/jpeg"
@@ -201,10 +207,16 @@ function Register() {
           </div>
 
           {/* Submit */}
-          <button type="submit" className={submitBtn}>
-            Create Account
+          <button type="submit" className={submitBtn} disabled={loading}>
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
+
+        <div className="mt-4 flex justify-center">
+          <button onClick={() => navigate("/")} className="text-sm text-gray-500 hover:text-gray-700">
+            ← Back to Home
+          </button>
+        </div>
 
         {/* Footer note */}
         <p className={`${mutedText} text-center mt-5`}>

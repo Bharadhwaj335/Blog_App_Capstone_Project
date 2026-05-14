@@ -26,7 +26,6 @@ function Header() {
     if (!user) return "/";
     const role = user.role?.toUpperCase?.();
 
-   // console.log("current user", user);
     switch (role) {
       case "AUTHOR":
         return "/author-profile";

@@ -16,13 +16,13 @@ export const useAuth = create((set) => ({
   isAuthenticated: false,
   error: null,
   login: async (userCredWithRole) => {
-    const { role, ...userCredObj } = userCredWithRole;
+    const { role: _role, ...userCredObj } = userCredWithRole;
     try {
       //set loading true
       set({ loading: true, error: null });
       //make api call
       let res = await axios.post(`${API_BASE_URL}/common-api/login`, userCredObj, { withCredentials: true });
-      // console.log("res is ", res);
+
       //update state
       set({
         loading: false,
@@ -30,7 +30,7 @@ export const useAuth = create((set) => ({
         currentUser: normalizeUser(res.data.payload), //{message:"",payload:}
       });
     } catch (err) {
-      console.log("err is ", err);
+
       set({
         loading: false,
         isAuthenticated: false,

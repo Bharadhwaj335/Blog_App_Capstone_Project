@@ -27,6 +27,9 @@ function Footer() {
               Dashboard
             </NavLink>
           )}
+          <a href="#" className="text-[#4b5563] hover:text-[#0b66c3] transition-colors">About Us</a>
+          <a href="#" className="text-[#4b5563] hover:text-[#0b66c3] transition-colors">Contact</a>
+          <a href="#" className="text-[#4b5563] hover:text-[#0b66c3] transition-colors">Terms of Service</a>
         </div>
       </div>
     </footer>

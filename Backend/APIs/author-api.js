@@ -5,6 +5,8 @@ import { verifyToken } from "../Middlewares/verifyToken.js";
 import { upload } from "../config/multer.js";
 import cloudinary from "../config/cloudinary.js";
 import { uploadToCloudinary } from "../config/cloudinaryUpload.js";
+import { validate } from "../Middlewares/validate.js";
+import { articleSchema } from "../config/schemas.js";
 
 export const authorRoute = exp.Router();
 
@@ -43,7 +45,7 @@ authorRoute.post("/users", upload.single("profileImageUrl"), async (req, res, ne
 });
 
 //Create article(protected route)
-authorRoute.post("/articles", verifyToken("AUTHOR"), async (req, res) => {
+authorRoute.post("/articles", verifyToken("AUTHOR"), validate(articleSchema), async (req, res) => {
   //get article from req
   let article = req.body;
 
@@ -68,14 +70,11 @@ authorRoute.get("/articles/:authorId", verifyToken("AUTHOR"), async (req, res) =
 
 //edit article(protected route)
 authorRoute.put("/articles", verifyToken("AUTHOR"), async (req, res) => {
-  console.log(req.body);
   let author = req.user.userId;
   //get modified article from req
   let { articleId, title, category, content } = req.body;
-  console.log(articleId, author);
   //find article
   let articleOfDB = await ArticleModel.findOne({ _id: articleId, author: author });
-  console.log(articleOfDB);
   if (!articleOfDB) {
     return res.status(401).json({ message: "Article not found" });
   }
@@ -98,12 +97,10 @@ authorRoute.patch("/articles/:id/status", verifyToken("AUTHOR"), async (req, res
   const { isArticleActive } = req.body;
   // Find article
   const article = await ArticleModel.findById(id); //.populate("author");
-  console.log(article);
   if (!article) {
     return res.status(404).json({ message: "Article not found" });
   }
 
-  //console.log(req.user.userId,article.author.toString())
   // AUTHOR can only modify their own articles
   if (req.user.role === "AUTHOR" && article.author.toString() !== req.user.userId) {
     return res.status(403).json({ message: "Forbidden. You can only modify your own articles" });

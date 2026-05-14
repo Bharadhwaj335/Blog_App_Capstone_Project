@@ -5,6 +5,8 @@ import { verifyToken } from "../Middlewares/verifyToken.js";
 import { upload } from "../config/multer.js";
 import cloudinary from "../config/cloudinary.js";
 import { uploadToCloudinary } from "../config/cloudinaryUpload.js";
+import { validate } from "../Middlewares/validate.js";
+import { commentSchema } from "../config/schemas.js";
 
 export const userRoute = exp.Router();
 
@@ -64,11 +66,10 @@ userRoute.get("/article/:articleId", verifyToken("USER", "AUTHOR", "ADMIN"), asy
 });
 
 //Add comment to an article(protected route)
-userRoute.put("/articles", verifyToken("USER"), async (req, res) => {
+userRoute.put("/articles", verifyToken("USER"), validate(commentSchema), async (req, res) => {
   //get comment obj from req
   const { user, articleId, comment } = req.body;
   //check user(req.user)
-  console.log(req.user);
   if (user !== req.user.userId) {
     return res.status(403).json({ message: "Forbidden" });
   }
