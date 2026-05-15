@@ -21,7 +21,37 @@ const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
   .map((origin) => origin.trim().replace(/\/$/, ""))
   .filter(Boolean);
 //use cors middleware
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+const corsOptions = {
+  origin: (origin, callback) => {
+    // allow requests with no origin (like mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    // allow if origin is explicitly listed in FRONTEND_URL env
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    // allow all origins when ALLOW_ALL_ORIGINS env is set (useful for quick deploys)
+    if (String(process.env.ALLOW_ALL_ORIGINS).toLowerCase() === "true") return callback(null, true);
+    // allow vercel.app hosted frontends (common deployment target)
+    try {
+      const url = new URL(origin);
+      if (url.hostname && url.hostname.endsWith(".vercel.app")) return callback(null, true);
+    } catch (e) {
+      // ignore URL parse errors
+    }
+    // otherwise reject
+    return callback(new Error("CORS policy: This origin is not allowed."));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+};
+
+app.use((req, res, next) => {
+  // allow preflight for all routes
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
+
+app.use(cors(corsOptions));
 //add body parser middleware
 app.use(exp.json());
 //add cookie parser middleware
