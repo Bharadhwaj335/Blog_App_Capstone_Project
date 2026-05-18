@@ -1,0 +1,23 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="40" x2="400" y2="470" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d81bff" />
+      <stop offset="0.52" stop-color="#7b61ff" />
+      <stop offset="1" stop-color="#2cc8ea" />
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="256" fill="url(#bg)" />
+  <g stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="116" y="122" width="280" height="258" rx="26" stroke-width="16" />
+    <path d="M116 180H396" stroke-width="14" />
+    <circle cx="151" cy="155" r="10" fill="#ffffff" stroke="none" />
+    <circle cx="186" cy="155" r="10" fill="#ffffff" stroke="none" />
+    <circle cx="221" cy="155" r="10" fill="#ffffff" stroke="none" />
+    <rect x="157" y="220" width="198" height="92" rx="10" stroke-width="14" />
+    <path d="M194 245H318" stroke-width="10" />
+    <path d="M194 273H282" stroke-width="10" />
+    <path d="M157 332H238" stroke-width="10" />
+    <path d="M157 360H262" stroke-width="10" />
+  </g>
+  <text x="256" y="281" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="700" fill="#ffffff">BLOG</text>
+</svg>
