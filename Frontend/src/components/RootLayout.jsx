@@ -6,22 +6,17 @@ import { useAuth } from "../store/authStore";
 
 function RootLayout() {
   const checkAuth = useAuth((state) => state.checkAuth);
-  const loading = useAuth((state) => state.loading);
+  const initialized = useAuth((state) => state.initialized);
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  // wait until auth check completes
-  if (loading) {
-    return <p className="text-center mt-10">Loading...</p>;
-  }
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <div className="flex-1 w-full">
-        <Outlet />
+        {!initialized ? <p className="text-center mt-10">Loading...</p> : <Outlet />}
       </div>
       <Footer />
     </div>

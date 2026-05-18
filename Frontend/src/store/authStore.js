@@ -14,7 +14,9 @@ export const useAuth = create((set) => ({
   currentUser: null,
   loading: false,
   isAuthenticated: false,
+  initialized: false,
   error: null,
+  clearError: () => set({ error: null }),
   login: async (userCredWithRole) => {
     const { role: _role, ...userCredObj } = userCredWithRole;
     try {
@@ -27,6 +29,7 @@ export const useAuth = create((set) => ({
       set({
         loading: false,
         isAuthenticated: true,
+        initialized: true,
         currentUser: normalizeUser(res.data.payload || res.data.user),
       });
     } catch (err) {
@@ -35,6 +38,7 @@ export const useAuth = create((set) => ({
         loading: false,
         isAuthenticated: false,
         currentUser: null,
+        initialized: true,
         //error: err,
         error: err.response?.data?.error || "Login failed",
       });
@@ -51,6 +55,7 @@ export const useAuth = create((set) => ({
         loading: false,
         isAuthenticated: false,
         currentUser: null,
+        initialized: true,
       });
     } catch (err) {
       set({
@@ -71,6 +76,7 @@ export const useAuth = create((set) => ({
         currentUser: normalizeUser(res.data.payload || res.data.user),
         isAuthenticated: true,
         loading: false,
+        initialized: true,
       });
     } catch (err) {
       // If user is not logged in → do nothing
@@ -79,13 +85,14 @@ export const useAuth = create((set) => ({
           currentUser: null,
           isAuthenticated: false,
           loading: false,
+          initialized: true,
         });
         return;
       }
 
       // other errors
       console.error("Auth check failed:", err);
-      set({ loading: false });
+      set({ loading: false, initialized: true });
     }
   },
 }));

@@ -52,9 +52,9 @@ export const navLinkActiveClass = "text-[0.82rem] text-[#0b66c3] bg-[#eaf4ff] px
 //export const articleGrid        = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#e8e8ed] border border-[#e8e8ed] rounded-2xl overflow-hidden"
 export const articleGrid = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6";
 export const articleCardClass =
-  "bg-white border border-[#e7ebef] p-7 hover:-translate-y-0.5 hover:shadow-[0_12px_26px_rgba(15,23,42,0.08)] transition duration-300 flex flex-col gap-2.5";
-export const articleTitle = "text-base font-semibold text-[#1f2937] leading-snug tracking-tight";
-export const articleExcerpt = "text-sm text-[#4b5563] leading-relaxed";
+  "bg-white border border-[#e7ebef] p-7 hover:-translate-y-0.5 hover:shadow-[0_12px_26px_rgba(15,23,42,0.08)] transition duration-300 flex flex-col gap-2.5 min-w-0 overflow-hidden";
+export const articleTitle = "text-base font-semibold text-[#1f2937] leading-snug tracking-tight break-words";
+export const articleExcerpt = "text-sm text-[#4b5563] leading-relaxed break-words";
 export const articleMeta = "text-xs text-[#6b7280]";
 export const articleBody = "text-[#374151] leading-[1.85] text-[0.95rem] max-w-2xl";
 export const timestampClass = "text-xs text-[#6b7280] flex items-center gap-1.5";

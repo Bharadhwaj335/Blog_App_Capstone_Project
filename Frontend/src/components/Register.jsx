@@ -18,6 +18,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { API_BASE_URL } from "../config/api";
 import { toast } from "react-hot-toast";
+import { useAuth } from "../store/authStore";
 
 function Register() {
   const { register, handleSubmit } = useForm();
@@ -26,6 +27,7 @@ function Register() {
   const [preview, setPreview] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const clearError = useAuth((state) => state.clearError);
 
   const onUserRegister = async (newUser) => {
     setLoading(true);
@@ -51,6 +53,7 @@ function Register() {
         let resObj = await axios.post(`${API_BASE_URL}/user-api/users`, formData);
         if (resObj.status === 201) {
           toast.success("Account created successfully!");
+          clearError();
           navigate("/login");
         }
       }
@@ -60,6 +63,7 @@ function Register() {
         let resObj = await axios.post(`${API_BASE_URL}/author-api/users`, formData);
         if (resObj.status === 201) {
           //navigate to login
+          clearError();
           navigate("/login");
         }
       }

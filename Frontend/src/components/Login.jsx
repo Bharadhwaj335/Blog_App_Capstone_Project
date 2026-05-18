@@ -26,8 +26,13 @@ function Login() {
   const isAuthenticated = useAuth((state) => state.isAuthenticated);
   const currentUser = useAuth((state) => state.currentUser);
   const error = useAuth((state) => state.error);
+  const clearError = useAuth((state) => state.clearError);
   const navigate = useNavigate();
   const location=useLocation()
+
+  useEffect(() => {
+    clearError();
+  }, [clearError]);
 
 
   const onUserLogin = async (userCredObj) => {
