@@ -32,6 +32,8 @@ export const useAuth = create((set) => ({
         initialized: true,
         currentUser: normalizeUser(res.data.payload || res.data.user),
       });
+
+      localStorage.setItem("blog-authenticated", "true");
     } catch (err) {
 
       set({
@@ -42,6 +44,8 @@ export const useAuth = create((set) => ({
         //error: err,
         error: err.response?.data?.error || "Login failed",
       });
+
+      localStorage.removeItem("blog-authenticated");
     }
   },
   logout: async () => {
@@ -57,6 +61,8 @@ export const useAuth = create((set) => ({
         currentUser: null,
         initialized: true,
       });
+
+      localStorage.removeItem("blog-authenticated");
     } catch (err) {
       set({
         loading: false,
@@ -78,6 +84,8 @@ export const useAuth = create((set) => ({
         loading: false,
         initialized: true,
       });
+
+      localStorage.setItem("blog-authenticated", "true");
     } catch (err) {
       // If user is not logged in → do nothing
       if (err.response?.status === 401) {
@@ -87,11 +95,11 @@ export const useAuth = create((set) => ({
           loading: false,
           initialized: true,
         });
+
+        localStorage.removeItem("blog-authenticated");
         return;
       }
 
-      // other errors
-      console.error("Auth check failed:", err);
       set({ loading: false, initialized: true });
     }
   },

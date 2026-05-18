@@ -9,7 +9,15 @@ function RootLayout() {
   const initialized = useAuth((state) => state.initialized);
 
   useEffect(() => {
-    checkAuth();
+    if (localStorage.getItem("blog-authenticated") === "true") {
+      checkAuth();
+      return;
+    }
+
+    if (!initialized) {
+      // No saved session, so we can render immediately without probing the API.
+      useAuth.setState({ initialized: true, isAuthenticated: false, loading: false });
+    }
   }, [checkAuth]);
 
   return (
