@@ -2,6 +2,7 @@ import exp from "express";
 import { authenticate } from "../Services/authService.js";
 import { UserTypeModel } from "../Models/user-model.js";
 import bcrypt from "bcryptjs";
+import { ArticleModel } from "../Models/article-model.js";
 import { verifyToken } from "../Middlewares/verifyToken.js";
 import { validate } from "../Middlewares/validate.js";
 import { loginSchema, changePasswordSchema } from "../config/schemas.js";
@@ -81,5 +82,31 @@ commonRouter.get("/check-auth", verifyToken("USER", "AUTHOR", "ADMIN"), async (r
     });
   } catch (err) {
     next(err);
+  }
+});
+
+// Read all active articles (Public)
+commonRouter.get("/articles", async (req, res) => {
+  try {
+    const articles = await ArticleModel.find({ isArticleActive: true }).populate("comments.user", "email firstName").populate("author", "firstName lastName profileImageUrl");
+    res.status(200).json({ message: "all articles", payload: articles });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch articles", error: err.message });
+  }
+});
+
+// Get article by id (Public)
+commonRouter.get("/article/:articleId", async (req, res) => {
+  try {
+    const { articleId } = req.params;
+    const article = await ArticleModel.findById(articleId).populate("author", "firstName email profileImageUrl").populate("comments.user", "email firstName");
+    
+    if (!article) {
+      return res.status(404).json({ message: "Article not found" });
+    }
+    
+    res.status(200).json({ message: "article", payload: article });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch article", error: err.message });
   }
 });

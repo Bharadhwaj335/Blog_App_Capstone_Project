@@ -40,7 +40,7 @@ function ArticleByID() {
       setLoading(true);
 
       try {
-        const res = await axios.get(`${API_BASE_URL}/user-api/article/${id}`, { withCredentials: true });
+        const res = await axios.get(`${API_BASE_URL}/common-api/article/${id}`);
 
         setArticle(res.data.payload);
       } catch (err) {
@@ -178,12 +178,37 @@ function ArticleByID() {
             placeholder="Write your comment"
           />
           <button
-            className="mt-2 rounded-md bg-slate-800 px-4 py-2 text-sm text-white disabled:opacity-50"
+            className="mt-2 rounded-md bg-slate-800 px-4 py-2 text-sm text-white disabled:opacity-50 hover:bg-slate-700 transition"
             onClick={addComment}
             disabled={commentLoading}
           >
             {commentLoading ? "Posting..." : "Post Comment"}
           </button>
+        </div>
+      )}
+
+      {/* Guest Login Prompt for Commenting */}
+      {!user && article.isArticleActive && (
+        <div className="mt-8 rounded-xl border border-[#dce6f0] bg-[#f8fbff] p-6 text-center shadow-sm">
+          <div className="text-4xl mb-3">💬</div>
+          <h3 className="text-lg font-bold text-[#1f2937] mb-2">Join the discussion</h3>
+          <p className="text-sm text-[#4b5563] mb-5">
+            You need to be logged in to leave a comment. Sign up for free to share your thoughts.
+          </p>
+          <div className="flex justify-center gap-3">
+            <button
+              onClick={() => navigate("/register")}
+              className="bg-[#0b66c3] text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#08529b] transition shadow-sm"
+            >
+              Create Account
+            </button>
+            <button
+              onClick={() => navigate("/login")}
+              className="bg-white border border-[#ced5de] text-[#1f2937] px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#f4f6f8] transition"
+            >
+              Sign In
+            </button>
+          </div>
         </div>
       )}
 
