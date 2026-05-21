@@ -74,7 +74,7 @@ export const articleAuthorRow =
 
 export const authorInfo = "flex items-center gap-2 font-medium text-[#1f2937]";
 
-export const articleContent = "text-[#1f2937] leading-[1.9] text-[1rem] whitespace-pre-line mt-8";
+export const articleContent = "text-[#1f2937] leading-[1.9] text-[1rem] whitespace-pre-line mt-8 break-words break-all";
 
 export const articleFooter = "border-t border-[#e8e8ed] mt-12 pt-6 text-sm text-[#a1a1a6]";
 // ─── Article Actions ─────────────────────────────

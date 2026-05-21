@@ -56,11 +56,6 @@ function Home() {
       {/* Hero Section with colorful student-friendly styling */}
       <section className="bg-gradient-to-br from-[#eff6ff] via-[#f0f9ff] to-[#e0e7ff] pt-16 pb-16 sm:pt-20 sm:pb-24 border-b border-[#c7d2fe]">
         <div className={`${pageWrapper} text-center`}>
-          <div className="inline-block mb-4">
-            <span className="text-sm font-bold text-[#4338ca] bg-[#e0e7ff] px-4 py-1.5 rounded-full border border-[#a5b4fc] shadow-sm tracking-wide">
-              🎓 Capstone Project
-            </span>
-          </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#1e3a8a] leading-tight mb-5 max-w-4xl mx-auto drop-shadow-sm">
             Welcome to the <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#7c3aed]">Blog Platform</span>
           </h1>
