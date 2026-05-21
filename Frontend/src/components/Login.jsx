@@ -54,10 +54,13 @@ function Login() {
   }, [isAuthenticated, currentUser, location.pathname, navigate]);
 
   return (
-    <div className={`${pageBackground} flex items-center justify-center py-16 px-4`}>
-      <div className={formCard}>
+    <div className="min-h-screen bg-gradient-to-br from-[#eff6ff] via-[#f0f9ff] to-[#e0e7ff] flex items-center justify-center py-16 px-4">
+      <div className={`${formCard} w-full max-w-md shadow-2xl shadow-blue-900/10 border-white/50 backdrop-blur-md`}>
         {/* Title */}
-        <h2 className={formTitle}>Sign In</h2>
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-extrabold text-[#1e3a8a] tracking-tight">Welcome Back</h2>
+          <p className="text-[#64748b] mt-2">Please enter your details to sign in.</p>
+        </div>
 
         {/* error message */}
         {error && <p className={errorClass}>{error}</p>}
@@ -89,7 +92,7 @@ function Login() {
           </div>
 
           {/* Submit */}
-          <button type="submit" className={submitBtn} disabled={loading}>
+          <button type="submit" className="w-full bg-gradient-to-r from-[#2563eb] to-[#3b82f6] text-white font-bold py-3 rounded-xl hover:from-[#1d4ed8] hover:to-[#2563eb] transition-all cursor-pointer mt-4 shadow-md hover:shadow-lg hover:-translate-y-0.5" disabled={loading}>
             {loading ? "Signing In..." : "Sign In"}
           </button>
         </form>

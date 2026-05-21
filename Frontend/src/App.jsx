@@ -12,6 +12,7 @@ import ArticleByID from "./components/ArticleById";
 import AuthorArticles from "./components/AuthorArticles";
 import WriteArticle from "./components/WriteArticle";
 import EditArticle from "./components/EditArticleForm";
+import EditProfile from "./components/EditProfile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Unauthorized from "./components/Unauthorized";
 
@@ -82,6 +83,14 @@ function App() {
           element: (
             <ProtectedRoute allowedRoles={["AUTHOR"]}>
               <EditArticle />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "edit-profile",
+          element: (
+            <ProtectedRoute allowedRoles={["USER", "AUTHOR"]}>
+              <EditProfile />
             </ProtectedRoute>
           ),
         },

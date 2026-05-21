@@ -17,6 +17,7 @@ export const useAuth = create((set) => ({
   initialized: false,
   error: null,
   clearError: () => set({ error: null }),
+  updateUser: (user) => set({ currentUser: normalizeUser(user) }),
   login: async (userCredWithRole) => {
     const { role: _role, ...userCredObj } = userCredWithRole;
     try {

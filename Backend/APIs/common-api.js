@@ -6,6 +6,9 @@ import { ArticleModel } from "../Models/article-model.js";
 import { verifyToken } from "../Middlewares/verifyToken.js";
 import { validate } from "../Middlewares/validate.js";
 import { loginSchema, changePasswordSchema } from "../config/schemas.js";
+import { upload } from "../config/multer.js";
+import cloudinary from "../config/cloudinary.js";
+import { uploadToCloudinary } from "../config/cloudinaryUpload.js";
 
 export const commonRouter = exp.Router();
 
@@ -81,6 +84,39 @@ commonRouter.get("/check-auth", verifyToken("USER", "AUTHOR", "ADMIN"), async (r
       payload: user,
     });
   } catch (err) {
+    next(err);
+  }
+});
+
+// Edit profile
+commonRouter.put("/profile", verifyToken("USER", "AUTHOR", "ADMIN"), upload.single("profileImageUrl"), async (req, res, next) => {
+  let cloudinaryResult;
+  try {
+    const { firstName, lastName } = req.body;
+    const userId = req.user.userId;
+
+    const user = await UserTypeModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (firstName) user.firstName = firstName;
+    if (lastName !== undefined) user.lastName = lastName;
+
+    if (req.file) {
+      cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+      user.profileImageUrl = cloudinaryResult.secure_url;
+    }
+
+    await user.save();
+    
+    const userToReturn = await UserTypeModel.findById(userId).select("-password");
+
+    res.status(200).json({ message: "Profile updated successfully", payload: userToReturn });
+  } catch (err) {
+    if (cloudinaryResult?.public_id) {
+      await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+    }
     next(err);
   }
 });
